@@ -21,7 +21,27 @@ function groupCommitsByInterval(commits, interval) {
 
     commits.forEach(commit => {
         const date = moment(commit.timestamp);
-        const key = date.startOf(interval).format(); // Start of the interval (e.g., start of the day)
+        let key;
+        switch (interval) {
+            case 'minute':
+                key = date.startOf('minute').format();
+                break;
+            case 'hour':
+                key = date.startOf('hour').format();
+                break;
+            case 'day':
+                key = date.startOf('day').format();
+                break;
+            case 'week':
+                key = date.startOf('week').format();
+                break;
+            case 'month':
+                key = date.startOf('month').format();
+                break;
+            default:
+                key = date.startOf('day').format(); // Default to day if interval is not specified or invalid
+                break;
+        }
 
         if (!groupedCommits[key]) {
             groupedCommits[key] = 0;
@@ -125,26 +145,58 @@ app.get('/org/commits/graph', async (req, res) => {
                 },
             });
             const commits = commitsResponse.data;
-            let count =0;
             for (const commit of commits) {
                 commitsData.push({
                     sha: commit.sha,
                     message: commit.commit.message,
                     timestamp: commit.commit.author.date,
                     repo: repo.name,
-                    cummulativeCount :count
                 });
             }
         }
+      const totalCommits = commitsData.length;
+        // Group commits by the specified interval
+        const groupedCommits = groupCommitsByInterval(commitsData, interval);
+
+        // Format the response
+        const graphData = Object.keys(groupedCommits).map(key => ({
+            timestamp: key,
+            commits: groupedCommits[key],
+        }));
+
+        // Send response
+        res.json({graphData,totalCommits});
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+app.get('/repos/:repo/commits/graph', async (req, res) => {
+    const { repo } = req.params;
+    const interval = req.query.interval || 'day'; // Default to grouping by day
+    try {
+        // Fetch commits for the specified repository
+        const commitsResponse = await axios.get(`https://api.github.com/repos/${GITHUB_ORG}/${repo}/commits`, {
+            headers: {
+                Authorization: `Bearer ${GITHUB_TOKEN}`,
+            },
+        });
+        const commits = commitsResponse.data;
+
+        // Initialize an array to store commit data
+        const commitsData = commits.map(commit => ({
+            sha: commit.sha,
+            message: commit.commit.message,
+            timestamp: commit.commit.author.date,
+            repo,
+        }));
 
         // Group commits by the specified interval
         const groupedCommits = groupCommitsByInterval(commitsData, interval);
 
         // Format the response
-        let count = 0;
         const graphData = Object.keys(groupedCommits).map(key => ({
             timestamp: key,
-            commits: count += groupedCommits[key],
+            commits: groupedCommits[key],
         }));
 
         // Send response
