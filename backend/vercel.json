@@ -11,11 +11,7 @@
         "src": "./index.js",
         "use": "@vercel/node"
       }
-    ],
-    "framework": {
-    "build": {
-      "command": "cd ../frontend && npm run build "
-    }
-  }
+    ]
+  
   }
   
