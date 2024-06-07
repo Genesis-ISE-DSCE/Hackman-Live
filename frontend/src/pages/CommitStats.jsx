@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import Graph from "../components/Graph";
-const host = import.meta.env.VITE_HOST;
+const host = import.meta.env.VITE_HOST || ''; 
 const CommitStats = () => {
   const params = useParams();
   const name = params.name;

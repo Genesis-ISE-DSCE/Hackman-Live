@@ -2,7 +2,7 @@ import React from "react";
 import Graph from "../components/Graph";
 import { HashLoader } from "react-spinners";
 import Repo from "../components/Repo";
-const host = import.meta.env.VITE_HOST;
+const host = import.meta.env.VITE_HOST || '';
 const Home = () => {
   const [commitData, setCommitData] = React.useState([]);
   const [repos, setRepos] = React.useState([]);
