@@ -24,15 +24,14 @@ const Home = () => {
       .then((res) => res.json())
       .then((data) => {
         setCommitData(data);
+        setIsLoaded(true)
       });
   };
   const getRepos = () => {
-    setIsLoaded(false);
     fetch(`${host}/repos`)
       .then((res) => res.json())
       .then((data) => {
         setRepos(data);
-        setIsLoaded(true);
       });
   };
   React.useEffect(() => {
