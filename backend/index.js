@@ -167,13 +167,12 @@ app.get("/org/commits-teams", async (req, res) => {
 
       const teamCommit = {
         name: repo.name,
-        commits: commitsResponse.length,
+        commits: commitsResponse.data.length,
       };
 
       teamCommits.push(teamCommit);
-
-      return res.status(200).json({ commits: teamCommits });
     }
+    return res.status(200).json({ commits: teamCommits });
   } catch (error) {
     return res.status(500).json({ msg: "Server error" });
   }
