@@ -2,9 +2,11 @@ import React from "react";
 import Graph from "../components/Graph";
 import { HashLoader } from "react-spinners";
 import Repo from "../components/Repo";
+import TeamsBarGraph from "../components/TeamsBarGraph";
 const host = import.meta.env.VITE_HOST || "";
 const Home = () => {
   const [commitData, setCommitData] = React.useState([]);
+  const [teamsCommitCount, setTeamsCommitCount] = React.useState([]);
   const [repos, setRepos] = React.useState([]);
   const [isLoaded, setIsLoaded] = React.useState(false);
   const [totalCommits, setTotalCommits] = React.useState(0);
@@ -16,25 +18,17 @@ const Home = () => {
       } else {
         clearInterval(interval); // Stop the interval once count reaches the array length
       }
-    }, 25); // Interval time in milliseconds (1 second in this case)
+    }, 15); // Interval time in milliseconds (1 second in this case)
 
     return () => clearInterval(interval); // Clean up on unmount
   }, [commitData.length, totalCommits]);
   const getCommitTimeline = () => {
-    fetch(`${host}/org/commits/graph?interval=minute`)
+    fetch(`${host}/org/commits/graph?interval=hour`)
       .then((res) => res.json())
       .then((data) => {
         setCommitData(data);
         setIsLoaded(true);
       });
-  };
-
-  const filterTeams = (e) => {
-    setSearch(e.target.value);
-    const filteredTeams = repos.filter((item) =>
-      item.toLowerCase().includes(search.toLowerCase())
-    );
-    setRepos(filteredTeams);
   };
 
   const getRepos = () => {
@@ -44,9 +38,17 @@ const Home = () => {
         setRepos(data);
       });
   };
+  const getTeamCommitsCount = ()=>{
+    fetch(`${host}/org/commits-teams`)
+      .then((res) => res.json())
+      .then((data) => {
+        data && setTeamsCommitCount(data.commits);
+      });
+  }
   React.useEffect(() => {
     getCommitTimeline();
     getRepos();
+    getTeamCommitsCount();
   }, []);
   return (
     <div>
@@ -56,7 +58,7 @@ const Home = () => {
             Total Commits made so far {totalCommits}
           </h1>
           <Graph data={commitData.graphData} />
-
+          <TeamsBarGraph data={teamsCommitCount}/>
           <h1 className="my-6 text-5xl font-bold text-center">
             {repos.length} Repos{" "}
           </h1>

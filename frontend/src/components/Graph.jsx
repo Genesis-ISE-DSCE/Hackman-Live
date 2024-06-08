@@ -3,6 +3,7 @@ import { LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } f
 
 
 const Graph = ({data}) => {
+    data.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
     return (
         <ResponsiveContainer width="100%" height={600}>
             <LineChart data={data}>

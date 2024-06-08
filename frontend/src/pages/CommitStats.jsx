@@ -7,7 +7,7 @@ const CommitStats = () => {
   const name = params.name;
   const [graphData, setGraphData] = React.useState([]);
   React.useEffect(() => {
-    fetch(`${host}/repos/${name}/commits/graph`)
+    fetch(`${host}/repos/${name}/commits/graph?interval=hour`)
       .then((res) => res.json())
       .then((data) => {
         setGraphData(data);
