@@ -162,14 +162,18 @@ app.get('/org/commits/graph', async (req, res) => {
         const groupedCommits = groupCommitsByInterval(commitsData, interval);
 
         // Format the response
-        const graphData = Object.keys(groupedCommits).map(key => ({
+        let count = 0;
+        const graphData = Object.keys(groupedCommits).map(key => {
+            count += groupedCommits[key];
+            return ({
             timestamp: key,
-            commits: groupedCommits[key],
-        }));
+            commits: count,
+        })});
 
         // Send response
         res.json({graphData,totalCommits});
     } catch (error) {
+        console.log(error);
         res.status(500).json({ error: error.message });
     }
 });
@@ -197,10 +201,13 @@ app.get('/repos/:repo/commits/graph', async (req, res) => {
         const groupedCommits = groupCommitsByInterval(commitsData, interval);
 
         // Format the response
-        const graphData = Object.keys(groupedCommits).map(key => ({
+        let count  = 0;
+        const graphData = Object.keys(groupedCommits).map(key => {
+            count += groupedCommits[key];
+            return ({
             timestamp: key,
-            commits: groupedCommits[key],
-        }));
+            commits: count,
+        })});
 
         // Send response
         res.json(graphData);
