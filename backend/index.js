@@ -60,7 +60,7 @@ function groupCommitsByInterval(commits, interval) {
 app.get("/repos", async (req, res) => {
   try {
     const response = await axios.get(
-      `https://api.github.com/orgs/${GITHUB_ORG}/repos`,
+      `https://api.github.com/orgs/${GITHUB_ORG}/repos?per_page=100&type=owner`,
       {
         headers: {
           Authorization: `Bearer ${GITHUB_TOKEN}`,
