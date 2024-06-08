@@ -79,7 +79,7 @@ app.get("/repos/:repo/commits", async (req, res) => {
   const { repo } = req.params;
   try {
     const response = await axios.get(
-      `https://api.github.com/repos/${GITHUB_ORG}/${repo}/commits`,
+      `https://api.github.com/repos/${GITHUB_ORG}/${repo}/commits?per_page=100&type=owner`,
       {
         headers: {
           Authorization: `Bearer ${GITHUB_TOKEN}`,
@@ -110,7 +110,7 @@ app.get("/org/commits", async (req, res) => {
     // Iterate through each repository and fetch commits
     for (const repo of repos) {
       const commitsResponse = await axios.get(
-        `https://api.github.com/repos/${GITHUB_ORG}/${repo.name}/commits`,
+        `https://api.github.com/repos/${GITHUB_ORG}/${repo.name}/commits?per_page=100&type=owner`,
         {
           headers: {
             Authorization: `Bearer ${GITHUB_TOKEN}`,
@@ -157,7 +157,7 @@ app.get("/org/commits-teams", async (req, res) => {
 
     for (const repo of repos) {
       const commitsResponse = await axios.get(
-        `https://api.github.com/repos/${GITHUB_ORG}/${repo.name}/commits`,
+        `https://api.github.com/repos/${GITHUB_ORG}/${repo.name}/commits?per_page=100&type=owner`,
         // https://api.github.com/orgs/<your-repo>/repos?per_page=100&type=owner
         {
           headers: {
@@ -184,7 +184,7 @@ app.get("/org/commits/graph", async (req, res) => {
   try {
     // Fetch all repositories in the organization
     const reposResponse = await axios.get(
-      `https://api.github.com/orgs/${GITHUB_ORG}/repos`,
+      `https://api.github.com/orgs/${GITHUB_ORG}/repos?per_page=100&type=owner`,
       {
         headers: {
           Authorization: `Bearer ${GITHUB_TOKEN}`,
@@ -200,7 +200,7 @@ app.get("/org/commits/graph", async (req, res) => {
     // Iterate through each repository and fetch commits
     for (const repo of repos) {
       const commitsResponse = await axios.get(
-        `https://api.github.com/repos/${GITHUB_ORG}/${repo.name}/commits`,
+        `https://api.github.com/repos/${GITHUB_ORG}/${repo.name}/commits?per_page=100&type=owner`,
         {
           headers: {
             Authorization: `Bearer ${GITHUB_TOKEN}`,
@@ -244,7 +244,7 @@ app.get("/repos/:repo/commits/graph", async (req, res) => {
   try {
     // Fetch commits for the specified repository
     const commitsResponse = await axios.get(
-      `https://api.github.com/repos/${GITHUB_ORG}/${repo}/commits`,
+      `https://api.github.com/repos/${GITHUB_ORG}/${repo}/commits?per_page=100&type=owner`,
       {
         headers: {
           Authorization: `Bearer ${GITHUB_TOKEN}`,
