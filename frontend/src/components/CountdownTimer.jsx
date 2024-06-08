@@ -34,9 +34,9 @@ const CountdownTimer = ({ startTime, endTime }) => {
   }
 
   return (
-    <div className='font-outfit text-lg'>
+    <div className='font-outfit text-base lg:text-lg'>
       <span className='inline'>{currentTime < startTime ? "Starts in " : ""}</span>
-      <span className='bg-indigo-100 shadow-sm shadow-slate-950 w-28 inline-block text-indigo-800 font-medium me-2 px-2.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300'>{formatTime(timeLeft)}</span>
+      <span className='bg-indigo-100 shadow-sm shadow-slate-950 w-32 inline-block text-indigo-800 font-medium me-2 px-2.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300'>{formatTime(timeLeft)}</span>
     </div>
   );
 };

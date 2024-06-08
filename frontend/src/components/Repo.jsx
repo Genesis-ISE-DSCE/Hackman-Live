@@ -4,7 +4,7 @@ import stats from "../assets/stats.svg";
 import redirectIcon from "../assets/redirect.png";
 const Repo = ({ name, url }) => {
   return (
-    <div className="w-11/12 bg-gun-metal p-4 my-4 rounded-md flex justify-between shadow-lg items-center">
+    <div className="w-11/12 bg-gun-metal p-4 my-4 rounded-md flex justify-between flex-wrap shadow-lg items-center">
       <div>
         <div className="inline bg-black p-4 rounded-full">
           <img
@@ -15,7 +15,7 @@ const Repo = ({ name, url }) => {
         </div>
         <h1 className="text-2xl text-chinese-silver inline ml-4">{name}</h1>
       </div>
-      <div className="flex justify-start gap-4">
+      <div className="flex justify-start mt-6 gap-4">
         <a
           target="_blank"
           className="transition-colors duration-200 hover:bg-indigo-950 p-2 bg-slate-950 rounded-lg"
