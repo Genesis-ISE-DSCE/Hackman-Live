@@ -18,7 +18,7 @@ const Home = () => {
       } else {
         clearInterval(interval); // Stop the interval once count reaches the array length
       }
-    }, 15); // Interval time in milliseconds (1 second in this case)
+    }, 5); // Interval time in milliseconds (1 second in this case)
 
     return () => clearInterval(interval); // Clean up on unmount
   }, [commitData.length, totalCommits]);
